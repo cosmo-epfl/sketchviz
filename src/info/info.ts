@@ -26,7 +26,6 @@ function filter<T extends Record<string, Property>>(
     }
     return result;
 }
-
 /**
  * Information associated with the current structure or atom
  */

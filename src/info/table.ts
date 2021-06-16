@@ -8,13 +8,20 @@ import assert from 'assert';
 import { Parameter, Property, Target } from '../dataset';
 import { Indexes } from '../indexer';
 import { plot_multidim_properties } from './plotting';
-
 interface TableProperty {
     values: number[] | string[] | number[][];
     cell: HTMLTableDataCellElement;
     parameter?: string[] | number[];
     xlabel?: string;
     ylabel?: string;
+}
+
+interface TablePropertyND {
+    values: number[][][];
+    xlabel?: string;
+    ylabel?: string;
+    zlabel?: string;
+    cell: HTMLTableDataCellElement;
 }
 
 /** @hidden
@@ -25,6 +32,7 @@ export class Table {
 
     private _header: HTMLTableHeaderCellElement;
     private _properties: TableProperty[];
+    private _propertiesND: TablePropertyND[];
 
     /**
      * Create and append a new table inside the given `HTMLElement`.
@@ -33,6 +41,7 @@ export class Table {
      * @param target     is this table related to atom or structure
      * @param collapseID HTML id to use for the root div with class=collapse
      * @param properties properties to display in this table.
+     * @param properties2D proprties to plot in this table
      */
     constructor(
         root: HTMLElement,
@@ -55,6 +64,7 @@ export class Table {
         this._header = group.querySelector('th') as HTMLTableHeaderCellElement;
         this._target = target;
         this._properties = [];
+        this._propertiesND = [];
 
         const tbody = group.querySelector('tbody') as HTMLTableSectionElement;
         for (const name in properties) {
@@ -112,7 +122,7 @@ export class Table {
      */
     public show(indexes: Indexes): void {
         let displayId;
-        let index;
+        let index: number;
         if (this._target === 'structure') {
             displayId = indexes.structure + 1;
             index = indexes.structure;
