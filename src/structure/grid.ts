@@ -279,8 +279,32 @@ export class ViewersGrid {
                 assert(widgetData !== undefined);
 
                 const current = widgetData.current;
-                const structure = (current.structure + 1) % this._indexer.structuresCount();
-                const indexes = this._indexer.from_structure_atom(structure, 0);
+
+                const structuresCount = this._indexer.structuresCount();
+                let iterations = 0;
+
+                let structure = current.structure;
+                let indexes = undefined;
+                while (indexes === undefined) {
+                    structure = (structure + 1) % structuresCount;
+
+                    // try to find the first atom in the structure with
+                    // associated data
+                    for (let atom = 0; atom < this._indexer.atomsCount(structure); atom++) {
+                        indexes = this._indexer.from_structure_atom(structure, atom);
+
+                        if (indexes !== undefined) {
+                            break;
+                        }
+                    }
+
+                    // prevent infinite loop
+                    if (iterations === structuresCount) {
+                        return;
+                    }
+                    iterations += 1;
+                }
+
                 this.show(indexes);
                 this.onselect(indexes);
                 // continue playing until the advance callback returns false
@@ -302,8 +326,24 @@ export class ViewersGrid {
                 const current = widgetData.current;
                 assert(current.atom !== undefined);
                 const structure = current.structure;
-                const atom = (current.atom + 1) % this._indexer.atomsCount(structure);
-                const indexes = this._indexer.from_structure_atom(structure, atom);
+
+                const atomsCount = this._indexer.atomsCount(structure);
+                let atom = current.atom;
+
+                let indexes = undefined;
+                let iterations = 0;
+                while (indexes === undefined) {
+                    atom = (atom + 1) % atomsCount;
+                    indexes = this._indexer.from_structure_atom(structure, atom);
+
+                    // prevent infinite loop if the current structure has no
+                    // environments
+                    if (iterations === atomsCount) {
+                        return;
+                    }
+                    iterations += 1;
+                }
+
                 this.show(indexes);
                 this.onselect(indexes);
                 // continue playing until the advance callback returns false
@@ -677,8 +717,6 @@ export class ViewersGrid {
                         return;
                     }
 
-                    widget.highlight(atom);
-
                     // if the viewer is showing a bigger supercell than [1, 1, 1], the
                     // atom index can be outside of [0, natoms), so make sure it is
                     // inside this range.
@@ -690,6 +728,17 @@ export class ViewersGrid {
                         data.current.structure,
                         atom % natoms
                     );
+
+                    if (indexes === undefined) {
+                        sendWarning(
+                            `environment for atom ${atom % natoms} in structure ${
+                                data.current.structure
+                            } is not part of this dataset`
+                        );
+                        return;
+                    }
+
+                    widget.highlight(atom);
                     this.onselect(indexes);
                 };
 

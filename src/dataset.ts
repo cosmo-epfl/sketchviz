@@ -169,25 +169,25 @@ export function validateDataset(o: JsObject): void {
     } else if (!Array.isArray(o.structures)) {
         throw Error('"structures" must be an array in the dataset');
     }
-    const [structureCount, envCount] = checkStructures(o.structures);
+    const [structureCount, atomsCount] = checkStructures(o.structures);
+
+    let envCount = atomsCount;
+    if ('environments' in o) {
+        if (!Array.isArray(o.environments)) {
+            throw Error('"environments" must be an array in the dataset');
+        }
+
+        envCount = o.environments.length;
+        checkEnvironments(o.environments, o.structures);
+    }
 
     if (!('properties' in o)) {
         throw Error('missing "properties" key in then dataset');
     } else if (!(typeof o.properties === 'object' && o.properties !== null)) {
         throw Error('"properties" must be an object in the dataset');
     }
+
     checkProperties(o.properties as Record<string, JsObject>, structureCount, envCount);
-
-    if ('environments' in o) {
-        if (!Array.isArray(o.environments)) {
-            throw Error('"environments" must be an array in the dataset');
-        }
-
-        if (o.environments.length !== envCount) {
-            throw Error(`expected ${envCount} environments, got ${o.environments.length} instead`);
-        }
-        checkEnvironments(o.environments, o.structures);
-    }
 }
 
 function checkMetadata(o: JsObject) {
@@ -227,7 +227,7 @@ function checkMetadata(o: JsObject) {
 }
 
 function checkStructures(o: JsObject[]): [number, number] {
-    let envCount = 0;
+    let atomsCount = 0;
     for (let i = 0; i < o.length; i++) {
         const structure = o[i];
         if (
@@ -239,7 +239,7 @@ function checkStructures(o: JsObject[]): [number, number] {
         ) {
             throw Error(`missing 'size' for structure ${i}`);
         }
-        envCount += structure.size;
+        atomsCount += structure.size;
 
         if ('data' in structure) {
             // user-specified structure, nothing to do
@@ -251,7 +251,7 @@ function checkStructures(o: JsObject[]): [number, number] {
         }
     }
 
-    return [o.length, envCount];
+    return [o.length, atomsCount];
 }
 
 /**

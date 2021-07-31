@@ -257,6 +257,13 @@ class DefaultVisualizer {
         this.info.startAtomPlayback = (advance) => this.structure.atomPlayback(advance);
 
         let initial: Indexes = { environment: 0, structure: 0, atom: 0 };
+
+        // if we have sparse environments, make sure to use the first
+        // environment actually part of the dataset
+        if (dataset.environments !== undefined) {
+            initial = this._indexer.from_environment(0);
+        }
+
         if (config.settings && config.settings.pinned) {
             initial = this._indexer.from_environment(config.settings.pinned[0]);
         }

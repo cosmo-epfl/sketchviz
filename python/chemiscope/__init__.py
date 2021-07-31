@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from .input import create_input, write_input  # noqa
-
+from .structures import all_atomic_environments, librascal_atomic_environments  # noqa
 
 # Get the version from setuptools metadata (which took it from package.json)
 # cf https://stackoverflow.com/a/17638236/4692076

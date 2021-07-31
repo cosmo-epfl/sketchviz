@@ -12,7 +12,14 @@ import { Environment, Structure, UserStructure } from './dataset';
  */
 export type DisplayMode = 'structure' | 'atom';
 
-/** Indexes related to a single environment */
+/**
+ * Indexes related to a single entry in a property.
+ *
+ * This can exists in either structure mode (in which case `environnement ===
+ * structure` and atom is undefined); or atom mode. In atom mode, the
+ * environnement is the index of the entry in the property, and structure/atom
+ * define to which atom in which structure the entry correspond.
+ */
 export interface Indexes {
     /** The global environment index. */
     environment: number;
@@ -24,8 +31,7 @@ export interface Indexes {
     /**
      * Index of the atom in the structure which corresponds to the environment.
      *
-     * If we are considering full-structures environments only, this is
-     * `undefined`.
+     * If we are considering structures properties, this is `undefined`.
      */
     atom?: number;
 }
@@ -47,8 +53,6 @@ export class EnvironmentIndexer {
 
     private _structures: Structure[] | UserStructure[];
     private _environments?: Environment[];
-    /// Number of atoms before the structure at the same index
-    private _atomsBefore: number[];
 
     /**
      * Create a new [[EnvironmentIndexer]] for the given set of structures and
@@ -70,13 +74,6 @@ export class EnvironmentIndexer {
         if (this.mode === 'atom') {
             assert(this._environments !== undefined);
         }
-
-        let count = 0;
-        this._atomsBefore = [];
-        for (const structure of this._structures) {
-            this._atomsBefore.push(count);
-            count += structure.size;
-        }
     }
 
     /**
@@ -94,6 +91,7 @@ export class EnvironmentIndexer {
         } else {
             assert(this.mode === 'atom');
             assert(this._environments !== undefined);
+            assert(environment < this._environments.length);
 
             const env = this._environments[environment];
             return {
@@ -108,10 +106,11 @@ export class EnvironmentIndexer {
      * Get a full set of indexes from the structure/atom indexes
      * @param  structure index of the structure in the full structure list
      * @param  atom      index of the atom in the structure
-     * @return           full [[Indexes]], containing the global environment
-     *                   index
+     * @return an [[Indexes]] instance, containing the global environment index;
+     *         or ``undefined`` if there is no environment corresponding to the
+     *         given atom in the given structure
      */
-    public from_structure_atom(structure: number, atom?: number): Indexes {
+    public from_structure_atom(structure: number, atom?: number): Indexes | undefined {
         if (this.mode === 'structure') {
             assert(atom === undefined || atom === 0);
             return {
@@ -123,16 +122,18 @@ export class EnvironmentIndexer {
             assert(this._environments !== undefined);
             assert(atom !== undefined);
 
-            // assume that environments are ordered structure by structure, then
-            // by atom in the structure.
-            const environment = this._atomsBefore[structure] + atom;
-            assert(this._environments[environment].center === atom);
-            assert(this._environments[environment].structure === structure);
-            return {
-                atom: atom,
-                environment: environment,
-                structure: structure,
-            };
+            for (let environment = 0; environment < this._environments.length; environment++) {
+                const e = this._environments[environment];
+                if (e.structure === structure && e.center === atom) {
+                    return {
+                        atom: atom,
+                        environment: environment,
+                        structure: structure,
+                    };
+                }
+            }
+
+            return undefined;
         }
     }
 

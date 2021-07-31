@@ -7,7 +7,7 @@ import assert from 'assert';
 
 import { Property } from '../dataset';
 import { EnvironmentIndexer, Indexes } from '../indexer';
-import { generateGUID, getElement } from '../utils';
+import { generateGUID, getElement, sendWarning } from '../utils';
 
 import { Slider } from './slider';
 import { Table } from './table';
@@ -53,7 +53,7 @@ export class EnvironmentInfo {
      */
     public startStructurePlayback: (advance: () => boolean) => void;
     /**
-     * Callback fired when the use click the play button of the atom slider.
+     * Callback fired when the user clicks the play button of the atom slider.
      * The `advance` callback indicate whether to continue playback or not.
      */
     public startAtomPlayback: (advance: () => boolean) => void;
@@ -111,7 +111,7 @@ export class EnvironmentInfo {
                 aria-controls='${structureId}'>
                 <div class="chsp-info-btns-svg">${INFO_SVG}</div>
                 structure <input class='chsp-info-number' type=number value=1 min=1></input>
-                    
+
             </div>
             ${atomButton}
         </div>`;
@@ -180,6 +180,18 @@ export class EnvironmentInfo {
             }
 
             const indexes = this._indexes();
+            if (indexes === undefined) {
+                const structure = this._structure.slider.value();
+                // we should only reach `indexes === undefined` if we are
+                // displaying atom property
+                assert(this._atom !== undefined);
+                const atom = this._atom.slider.value();
+                sendWarning(
+                    `environment for atom ${atom} in structure ${structure} is not part of this dataset`
+                );
+                return;
+            }
+
             this._structure.table.show(indexes);
             this._structure.number.value = `${indexes.structure + 1}`;
 
@@ -211,6 +223,18 @@ export class EnvironmentInfo {
                 }
 
                 const indexes = this._indexes();
+                if (indexes === undefined) {
+                    const structure = this._structure.slider.value();
+                    // we should only reach `indexes === undefined` if we are
+                    // displaying atom property
+                    assert(this._atom !== undefined);
+                    const atom = this._atom.slider.value();
+                    sendWarning(
+                        `environment for atom ${atom} in structure ${structure} is not part of this dataset`
+                    );
+                    return;
+                }
+
                 this._structure.table.show(indexes);
                 if (this._atom !== undefined) {
                     this._atom.table.show(indexes);
@@ -232,6 +256,16 @@ export class EnvironmentInfo {
         slider.onchange = () => {
             assert(this._atom !== undefined);
             const indexes = this._indexes();
+
+            if (indexes === undefined) {
+                const structure = this._structure.slider.value();
+                const atom = this._atom.slider.value();
+                sendWarning(
+                    `environment for atom ${atom} in structure ${structure} is not part of this dataset`
+                );
+                return;
+            }
+
             assert(indexes.atom !== undefined);
             this._atom.table.show(indexes);
             this._atom.number.value = `${indexes.atom + 1}`;
@@ -257,8 +291,16 @@ export class EnvironmentInfo {
             } else {
                 this._atom.slider.update(value);
                 const indexes = this._indexes();
-                this._atom.table.show(indexes);
+                if (indexes === undefined) {
+                    const structure = this._structure.slider.value();
+                    const atom = this._atom.slider.value();
+                    sendWarning(
+                        `environment for atom ${atom} in structure ${structure} is not part of this dataset`
+                    );
+                    return;
+                }
 
+                this._atom.table.show(indexes);
                 this.onchange(indexes);
             }
         };
@@ -267,7 +309,7 @@ export class EnvironmentInfo {
     }
 
     /** Get the currently selected structure/atom/environment */
-    private _indexes(): Indexes {
+    private _indexes(): Indexes | undefined {
         const structure = this._structure.slider.value();
         if (this._atom !== undefined) {
             const atom = this._atom.slider.value();
