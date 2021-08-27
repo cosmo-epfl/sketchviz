@@ -35,6 +35,8 @@ export interface Dataset {
      * environment. This may change in the future.
      */
     environments?: Environment[];
+    /** list of the parameters if multidimensional properties exists */
+    parameters?: { [parameter: string]: Parameter};
 }
 
 /** Various metadata associated with a dataset */
@@ -124,11 +126,22 @@ export interface Property {
      * string values should represent classification results (category "A", "B"
      * or "C"); and numeric values should be use for everything else.
      */
-    values: string[] | number[];
+    values: string[] | number[] | number[][];
     /** user-facing description of the property */
     description?: string;
     /** unit of the property values */
     units?: string;
+    /** paramater name associated to the multi dimensional property */
+    parameter?: string;
+}
+
+export interface Parameter {
+    /** the value of the parameters needed for multidimensional properties*/
+    values: string[] | number[] | number[][];
+    /** units of the parameters */
+    units?: string;
+    /** description of the parameter */
+    description?: string;
 }
 
 /**
@@ -177,6 +190,9 @@ export function validateDataset(o: JsObject): void {
         throw Error('"properties" must be an object in the dataset');
     }
     checkProperties(o.properties as Record<string, JsObject>, structureCount, envCount);
+
+    checkParameters(o.properties as Record<string, JsObject>,
+                    o.parameters as Record<string, JsObject>);
 
     if ('environments' in o) {
         if (!Array.isArray(o.environments)) {
@@ -326,7 +342,7 @@ function checkProperties(
         }
 
         const initial = typeof property.values[0];
-        if (initial !== 'string' && initial !== 'number') {
+        if (initial !== 'string' && initial !== 'number' && !Array.isArray(property.values[0])) {
             throw Error(`'properties['${key}'].values' should contain string or number`);
         }
 
@@ -343,6 +359,13 @@ function checkProperties(
 
         if ('units' in property && typeof property.units !== 'string') {
             throw Error(`'properties['${key}'].units' should contain a string`);
+        }
+
+        // check if parameter keyword exist for multidimensional properties
+        if (Array.isArray(property.values[0])){
+            if (typeof property.parameter !== 'string'){
+                throw Error(`'properties['${key}'].parameter' should contain a string`);
+            }
         }
     }
 }
@@ -382,4 +405,23 @@ function checkEnvironments(o: JsObject[], structures: Structure[]) {
 
 function isPositiveInteger(number: number): boolean {
     return Number.isInteger(number) && number >= 0;
+}
+
+function checkParameters(properties: Record<string, JsObject>, 
+                         parameters: Record<string, JsObject>): void {
+    // retrieve the list of parameters
+    //const parametersArray = parameters.keys;
+    let parametersArray: string[];
+    parametersArray = [];
+    for (const key in parameters){
+        parametersArray.push(key);
+    }
+    //check if a property's parameter exist in the list of parameters
+    for (const key in properties){
+        const property = properties[key];
+        const prop_parameter = property.parameter as string;
+        if (('parameter' in property) && !(parametersArray.includes(prop_parameter))){
+            throw Error(`parameter ${property.parameter} does not exist in the parameters`)
+        }
+    }
 }

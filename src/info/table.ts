@@ -7,9 +7,10 @@ import assert from 'assert';
 
 import { Property, Target } from '../dataset';
 import { Indexes } from '../indexer';
+import { plot_multidim_properties } from './plotting';
 
 interface TableProperty {
-    values: number[] | string[];
+    values: number[] | string[] | number[][];
     cell: HTMLTableDataCellElement;
 }
 
@@ -106,7 +107,20 @@ export class Table {
 
         this._header.innerText = `Properties for ${this._target} ${displayId}`;
         for (const s of this._properties) {
-            s.cell.innerText = s.values[index].toString();
+            if (!Array.isArray(s.values[index])){
+                s.cell.innerText = s.values[index].toString();
+            } else {
+                s.cell.innerHTML = '<div id="plot"></div>';
+                const enviro = document.getElementById('plot') as HTMLElement;
+                plot_multidim_properties(
+                    s.values[index] as number[],
+                    s.values[index] as number[],
+                    enviro,
+                    `index ${index + 1}`,
+                    "test xlabel",
+                    "test ylabel",
+                );
+            }            
         }
     }
 }
