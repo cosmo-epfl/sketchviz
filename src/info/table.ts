@@ -5,13 +5,16 @@
 
 import assert from 'assert';
 
-import { Property, Target } from '../dataset';
+import { Parameter, Property, Target } from '../dataset';
 import { Indexes } from '../indexer';
 import { plot_multidim_properties } from './plotting';
 
 interface TableProperty {
     values: number[] | string[] | number[][];
     cell: HTMLTableDataCellElement;
+    parameter?: string[] | number[];
+    xlabel?: string;
+    ylabel?: string;
 }
 
 /** @hidden
@@ -35,7 +38,8 @@ export class Table {
         root: HTMLElement,
         target: Target,
         collapseID: string,
-        properties: { [name: string]: Property }
+        properties: { [name: string]: Property },
+        parameters?: { [name: string]: Parameter}
     ) {
         const template = document.createElement('template');
         template.innerHTML = `<div class="collapse chsp-info-table" id=${collapseID} data-parent='#info-tables'>
@@ -79,12 +83,26 @@ export class Table {
             tr.appendChild(cell);
 
             tbody.appendChild(tr);
-            this._properties.push({
-                cell: cell,
-                values: properties[name].values,
-            });
+            const parameter = properties[name].parameter;
+            if (parameter === undefined){
+                this._properties.push({
+                    cell: cell,
+                    values: properties[name].values,
+                })
+            } else if (parameters && typeof(parameter) === 'string'){
+                let xlabel = parameter;
+                if (parameters[parameter].units !== undefined){
+                    xlabel += `/${parameters[parameter].units}`;
+                }
+                this._properties.push({
+                    cell: cell,
+                    values: properties[name].values,
+                    parameter: parameters[parameter].values,
+                    xlabel: xlabel,
+                    ylabel: title,
+            })
         }
-
+    }
         this.show({ environment: 0, structure: 0, atom: 0 });
     }
 
@@ -113,12 +131,12 @@ export class Table {
                 s.cell.innerHTML = '<div id="plot"></div>';
                 const enviro = document.getElementById('plot') as HTMLElement;
                 plot_multidim_properties(
-                    s.values[index] as number[],
+                    s.parameter as number[],
                     s.values[index] as number[],
                     enviro,
                     `index ${index + 1}`,
-                    "test xlabel",
-                    "test ylabel",
+                    s.xlabel,
+                    s.ylabel,
                 );
             }            
         }

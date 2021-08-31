@@ -137,7 +137,7 @@ export interface Property {
 
 export interface Parameter {
     /** the value of the parameters needed for multidimensional properties*/
-    values: string[] | number[] | number[][];
+    values: string[] | number[];
     /** units of the parameters */
     units?: string;
     /** description of the parameter */

@@ -27,11 +27,14 @@ export function plot_multidim_properties(
         xaxis: {
             title: xlabel,
             showgrid: false,
+            zeroline: true,
+            showline: true,
         },
         yaxis: {
             title: ylabel,
             showgrid: false,
-            //showline: true
+            showline: true,
+            zeroline: false,
         },
         showlegend: false,
         x: 0.2,
