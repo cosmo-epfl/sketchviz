@@ -5,7 +5,7 @@
 
 import assert from 'assert';
 
-import { Property } from '../dataset';
+import { Parameter, Property } from '../dataset';
 import { EnvironmentIndexer, Indexes } from '../indexer';
 import { generateGUID, getElement } from '../utils';
 
@@ -26,7 +26,6 @@ function filter<T extends Record<string, Property>>(
     }
     return result;
 }
-
 /**
  * Information associated with the current structure or atom
  */
@@ -67,7 +66,8 @@ export class EnvironmentInfo {
     constructor(
         element: string | HTMLElement,
         properties: { [name: string]: Property },
-        indexer: EnvironmentIndexer
+        indexer: EnvironmentIndexer,
+        parameters?: { [name: string]: Parameter }
     ) {
         this._root = getElement(element);
 
@@ -109,11 +109,11 @@ export class EnvironmentInfo {
         </div>`;
 
         const structureProperties = filter(properties, (p) => p.target === 'structure');
-        this._structure = this._createStructure(structureId, structureProperties);
+        this._structure = this._createStructure(structureId, structureProperties, parameters);
 
         if (this._indexer.mode === 'atom') {
             const atomProperties = filter(properties, (p) => p.target === 'atom');
-            this._atom = this._createAtom(atomId, atomProperties);
+            this._atom = this._createAtom(atomId, atomProperties, parameters);
         }
     }
 
@@ -153,14 +153,14 @@ export class EnvironmentInfo {
     }
 
     /** Create the structure slider and table */
-    private _createStructure(id: string, properties: { [name: string]: Property }): Info {
+    private _createStructure(id: string, properties: { [name: string]: Property }, parameters?: { [name: string]: Parameter}): Info {
         const slider = new Slider(this._root, 'structure');
         const n_structures = this._indexer.structuresCount();
         slider.reset(n_structures - 1);
 
         const tableRoot = this._root.children[0] as HTMLElement;
         assert(tableRoot.tagName.toLowerCase() === 'div');
-        const table = new Table(tableRoot, 'structure', id, properties);
+        const table = new Table(tableRoot, 'structure', id, properties, parameters);
 
         slider.startPlayback = (advance) => {
             setTimeout(() => {
@@ -228,7 +228,7 @@ export class EnvironmentInfo {
     }
 
     /** Create the atom slider and table */
-    private _createAtom(id: string, properties: { [name: string]: Property }) {
+    private _createAtom(id: string, properties: { [name: string]: Property }, parameters?: { [name: string]: Parameter}) {
         const slider = new Slider(this._root, 'atom');
         const n_atoms = this._indexer.atomsCount(this._structure.slider.value());
         slider.reset(n_atoms - 1);
@@ -259,7 +259,7 @@ export class EnvironmentInfo {
 
         const tableRoot = this._root.children[0] as HTMLElement;
         assert(tableRoot.tagName.toLowerCase() === 'div');
-        const table = new Table(tableRoot, 'atom', id, properties);
+        const table = new Table(tableRoot, 'atom', id, properties, parameters);
 
         const number = this._root.querySelector(
             '.chsp-info-atom-btn .chsp-info-number'

@@ -5,11 +5,22 @@
 
 import assert from 'assert';
 
-import { Property, Target } from '../dataset';
+import { Parameter, Property, Target } from '../dataset';
 import { Indexes } from '../indexer';
-
+import { plot_multidim_properties } from './plotting';
 interface TableProperty {
-    values: number[] | string[];
+    values: number[] | string[] | number[][];
+    cell: HTMLTableDataCellElement;
+    parameter?: string[] | number[];
+    xlabel?: string;
+    ylabel?: string;
+}
+
+interface TablePropertyND {
+    values: number[][][];
+    xlabel?: string;
+    ylabel?: string;
+    zlabel?: string;
     cell: HTMLTableDataCellElement;
 }
 
@@ -21,6 +32,7 @@ export class Table {
 
     private _header: HTMLTableHeaderCellElement;
     private _properties: TableProperty[];
+    private _propertiesND: TablePropertyND[];
 
     /**
      * Create and append a new table inside the given `HTMLElement`.
@@ -29,12 +41,14 @@ export class Table {
      * @param target     is this table related to atom or structure
      * @param collapseID HTML id to use for the root div with class=collapse
      * @param properties properties to display in this table.
+     * @param properties2D proprties to plot in this table
      */
     constructor(
         root: HTMLElement,
         target: Target,
         collapseID: string,
-        properties: { [name: string]: Property }
+        properties: { [name: string]: Property },
+        parameters?: { [name: string]: Parameter}
     ) {
         const template = document.createElement('template');
         template.innerHTML = `<div class="collapse chsp-info-table" id=${collapseID} data-parent='#info-tables'>
@@ -50,6 +64,7 @@ export class Table {
         this._header = group.querySelector('th') as HTMLTableHeaderCellElement;
         this._target = target;
         this._properties = [];
+        this._propertiesND = [];
 
         const tbody = group.querySelector('tbody') as HTMLTableSectionElement;
         for (const name in properties) {
@@ -78,12 +93,26 @@ export class Table {
             tr.appendChild(cell);
 
             tbody.appendChild(tr);
-            this._properties.push({
-                cell: cell,
-                values: properties[name].values,
-            });
+            const parameter = properties[name].parameter;
+            if (parameter === undefined){
+                this._properties.push({
+                    cell: cell,
+                    values: properties[name].values,
+                })
+            } else if (parameters && typeof(parameter) === 'string'){
+                let xlabel = parameter;
+                if (parameters[parameter].units !== undefined){
+                    xlabel += `/${parameters[parameter].units}`;
+                }
+                this._properties.push({
+                    cell: cell,
+                    values: properties[name].values,
+                    parameter: parameters[parameter].values,
+                    xlabel: xlabel,
+                    ylabel: title,
+            })
         }
-
+    }
         this.show({ environment: 0, structure: 0, atom: 0 });
     }
 
@@ -93,7 +122,7 @@ export class Table {
      */
     public show(indexes: Indexes): void {
         let displayId;
-        let index;
+        let index: number;
         if (this._target === 'structure') {
             displayId = indexes.structure + 1;
             index = indexes.structure;
@@ -106,7 +135,20 @@ export class Table {
 
         this._header.innerText = `Properties for ${this._target} ${displayId}`;
         for (const s of this._properties) {
-            s.cell.innerText = s.values[index].toString();
+            if (!Array.isArray(s.values[index])){
+                s.cell.innerText = s.values[index].toString();
+            } else {
+                s.cell.innerHTML = '<div id="plot"></div>';
+                const enviro = document.getElementById('plot') as HTMLElement;
+                plot_multidim_properties(
+                    s.parameter as number[],
+                    s.values[index] as number[],
+                    enviro,
+                    `index ${index + 1}`,
+                    s.xlabel,
+                    s.ylabel,
+                );
+            }            
         }
     }
 }

@@ -232,7 +232,7 @@ class DefaultVisualizer {
         };
 
         // information table & slider setup
-        this.info = new EnvironmentInfo(config.info, dataset.properties, this._indexer);
+        this.info = new EnvironmentInfo(config.info, dataset.properties, this._indexer, dataset.parameters);
         this.info.onchange = (indexes) => {
             this.map.select(indexes);
             this.structure.show(indexes);
