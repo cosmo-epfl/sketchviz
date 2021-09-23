@@ -1,0 +1,442 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>EnvironmentIndexer | chemiscope</title>
+	<meta name="description" content="Documentation for chemiscope">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">chemiscope</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../index.html">chemiscope</a>
+				</li>
+				<li>
+					<a href="EnvironmentIndexer.html">EnvironmentIndexer</a>
+				</li>
+			</ul>
+			<h1>Class EnvironmentIndexer</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p><a href="EnvironmentIndexer.html">EnvironmentIndexer</a> links environment index and structure/atom indexes</p>
+					</div>
+					<p>Environments can be either full structures or centered on a specific atom.
+						This class makes the link between two representations: a single, global,
+						environment index, used by the map; and the structure/atom pair, used by
+					the structure viewer and the general information panel.</p>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">EnvironmentIndexer</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="EnvironmentIndexer.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="EnvironmentIndexer.html#mode" class="tsd-kind-icon">mode</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="EnvironmentIndexer.html#atomsCount" class="tsd-kind-icon">atoms<wbr>Count</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="EnvironmentIndexer.html#environmentsCount" class="tsd-kind-icon">environments<wbr>Count</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="EnvironmentIndexer.html#from_environment" class="tsd-kind-icon">from_<wbr>environment</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="EnvironmentIndexer.html#from_structure_atom" class="tsd-kind-icon">from_<wbr>structure_<wbr>atom</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="EnvironmentIndexer.html#structuresCount" class="tsd-kind-icon">structures<wbr>Count</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Environment<wbr>Indexer<span class="tsd-signature-symbol">(</span>mode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DisplayMode</span>, structures<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Structure</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">UserStructure</span><span class="tsd-signature-symbol">[]</span>, environments<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Environment</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="EnvironmentIndexer.html" class="tsd-signature-type" data-tsd-kind="Class">EnvironmentIndexer</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/cosmo-epfl/chemiscope/blob/4655310/src/indexer.ts#L61">indexer.ts:61</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a new <a href="EnvironmentIndexer.html">EnvironmentIndexer</a> for the given set of structures and
+									environments.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>mode: <span class="tsd-signature-type">DisplayMode</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>should we display atomic or structure properties</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>structures: <span class="tsd-signature-type">Structure</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">UserStructure</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>structures used in the current dataset</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> environments: <span class="tsd-signature-type">Environment</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>environments used in the current dataset</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="EnvironmentIndexer.html" class="tsd-signature-type" data-tsd-kind="Class">EnvironmentIndexer</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="mode" class="tsd-anchor"></a>
+					<h3>mode</h3>
+					<div class="tsd-signature tsd-kind-icon">mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">DisplayMode</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/cosmo-epfl/chemiscope/blob/4655310/src/indexer.ts#L46">indexer.ts:46</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Current [[DisplayMode]]. This is useful for datasets that
+							contain both atom-level and structure-level properties.</p>
+						</div>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="atomsCount" class="tsd-anchor"></a>
+					<h3>atoms<wbr>Count</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">atoms<wbr>Count<span class="tsd-signature-symbol">(</span>structure<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/cosmo-epfl/chemiscope/blob/4655310/src/indexer.ts#L155">indexer.ts:155</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the total number of atom in the <code>structure</code> with given index</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>structure: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="environmentsCount" class="tsd-anchor"></a>
+					<h3>environments<wbr>Count</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">environments<wbr>Count<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/cosmo-epfl/chemiscope/blob/4655310/src/indexer.ts#L140">indexer.ts:140</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the total number of environments currently being displayed</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="from_environment" class="tsd-anchor"></a>
+					<h3>from_<wbr>environment</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">from_<wbr>environment<span class="tsd-signature-symbol">(</span>environment<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Indexes</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/cosmo-epfl/chemiscope/blob/4655310/src/indexer.ts#L88">indexer.ts:88</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get a full set of indexes from the global environment index</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>environment: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>global index of an environment</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Indexes</span></h4>
+							<p>full [[Indexes]], containing the corresponding
+							structure / atom indexes</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="from_structure_atom" class="tsd-anchor"></a>
+					<h3>from_<wbr>structure_<wbr>atom</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">from_<wbr>structure_<wbr>atom<span class="tsd-signature-symbol">(</span>structure<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, atom<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Indexes</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/cosmo-epfl/chemiscope/blob/4655310/src/indexer.ts#L114">indexer.ts:114</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get a full set of indexes from the structure/atom indexes</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>structure: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>index of the structure in the full structure list</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> atom: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>index of the atom in the structure</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Indexes</span></h4>
+							<p>full [[Indexes]], containing the global environment
+							index</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="structuresCount" class="tsd-anchor"></a>
+					<h3>structures<wbr>Count</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">structures<wbr>Count<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/cosmo-epfl/chemiscope/blob/4655310/src/indexer.ts#L150">indexer.ts:150</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the total number of structures we know about</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="../index.html">Exports</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="DefaultVisualizer.html" class="tsd-kind-icon">Default<wbr>Visualizer</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="EnvironmentIndexer.html" class="tsd-kind-icon">Environment<wbr>Indexer</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="EnvironmentIndexer.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="EnvironmentIndexer.html#mode" class="tsd-kind-icon">mode</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="EnvironmentIndexer.html#atomsCount" class="tsd-kind-icon">atoms<wbr>Count</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="EnvironmentIndexer.html#environmentsCount" class="tsd-kind-icon">environments<wbr>Count</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="EnvironmentIndexer.html#from_environment" class="tsd-kind-icon">from_<wbr>environment</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="EnvironmentIndexer.html#from_structure_atom" class="tsd-kind-icon">from_<wbr>structure_<wbr>atom</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="EnvironmentIndexer.html#structuresCount" class="tsd-kind-icon">structures<wbr>Count</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-class">
+						<a href="EnvironmentInfo.html" class="tsd-kind-icon">Environment<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="MapVisualizer.html" class="tsd-kind-icon">Map<wbr>Visualizer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="MetadataPanel.html" class="tsd-kind-icon">Metadata<wbr>Panel</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="PropertiesMap.html" class="tsd-kind-icon">Properties<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="StructureVisualizer.html" class="tsd-kind-icon">Structure<wbr>Visualizer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="ViewersGrid.html" class="tsd-kind-icon">Viewers<wbr>Grid</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/DefaultConfig.html" class="tsd-kind-icon">Default<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/MapConfig.html" class="tsd-kind-icon">Map<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/Settings.html" class="tsd-kind-icon">Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/StructureConfig.html" class="tsd-kind-icon">Structure<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../index.html#addWarningHandler" class="tsd-kind-icon">add<wbr>Warning<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../index.html#version" class="tsd-kind-icon">version</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
